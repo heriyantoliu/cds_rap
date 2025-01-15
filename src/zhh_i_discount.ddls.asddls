@@ -14,7 +14,7 @@ define view entity ZHH_I_Discount
 {
   key partner  as PartnerNumber,
   key material as MaterialNumber,
-      discount as Discount,
+      discount as DiscountValue,
 
       _Partner,
       _Material

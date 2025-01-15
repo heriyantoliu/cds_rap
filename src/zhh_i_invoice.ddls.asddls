@@ -12,8 +12,8 @@ define view entity ZHH_I_Invoice as select from zhh_invoice
   association [1..1] to ZHH_I_Partner as _Partner on $projection.PartnerNumber = _Partner.PartnerNumber
 {
   key document as DocumentNumber,
-  doc_date as DocDate,
-  doc_time as DocTime,
+  doc_date as DocumentDate,
+  doc_time as DocumentTime,
   partner as PartnerNumber,
   
   _Position,
