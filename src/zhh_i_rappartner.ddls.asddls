@@ -7,6 +7,7 @@
   sizeCategory: #S,
   dataClass: #MIXED
 }
+@Metadata.allowExtensions: true
 define root view entity ZHH_I_RAPPartner
   as select from zhh_partner
 {
