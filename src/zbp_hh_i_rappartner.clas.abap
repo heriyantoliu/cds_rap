@@ -1,0 +1,5 @@
+CLASS zbp_hh_i_rappartner DEFINITION PUBLIC ABSTRACT FINAL FOR BEHAVIOR OF zhh_i_rappartner.
+ENDCLASS.
+
+CLASS zbp_hh_i_rappartner IMPLEMENTATION.
+ENDCLASS.
