@@ -1,10 +1,10 @@
 @EndUserText.label: 'Authority Check for Material'
 @MappingRole: true
 define role ZHH_I_MATERIAL {
-  grant
-    select
-      on
-        ZHH_I_MATERIAL
-          where
-            ( MaterialNumber ) = aspect pfcg_auth( ZHH_MAT, ZHH_MAT, ACTVT='03' );
+//  grant
+//    select
+//      on
+//        ZHH_I_MATERIAL
+//          where
+//            ( MaterialNumber ) = aspect pfcg_auth( ZHH_MAT, ZHH_MAT, ACTVT='*' );
 }
