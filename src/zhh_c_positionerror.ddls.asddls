@@ -11,7 +11,7 @@ define view entity ZHH_C_PositionError
   as select from ZHH_I_Position
 {
   key DocumentNumber,
-  key PositioNumber,
+  key PositionNumber,
       MaterialNumber,
       @Semantics.quantity.unitOfMeasure: 'PositionUnit'
       PositionQuantity,
