@@ -1,5 +1,5 @@
 @AbapCatalog.viewEnhancementCategory: [#NONE]
-@AccessControl.authorizationCheck: #NOT_REQUIRED
+@AccessControl.authorizationCheck: #MANDATORY
 @EndUserText.label: 'Interface of Material'
 @Metadata.ignorePropagatedAnnotations: true
 @ObjectModel.usageType:{
