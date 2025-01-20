@@ -10,15 +10,18 @@ authorization master ( instance )
   create;
   update;
   delete;
-  field ( readonly:update ) PartnerNumber;
+  field ( readonly : update ) PartnerNumber;
+
+  validation validateIsFilled on save { create; }
+  validation validateCoreData on save { create; field Country, PaymentCurrency; }
 
   mapping for zhh_partner
-  {
-    PartnerNumber = partner;
-    PartnerName = name;
-    Street = street;
-    City = city;
-    Country = country;
-    PaymentCurrency = payment_currency;
-  }
+    {
+      PartnerNumber   = partner;
+      PartnerName     = name;
+      Street          = street;
+      City            = city;
+      Country         = country;
+      PaymentCurrency = payment_currency;
+    }
 }

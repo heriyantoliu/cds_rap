@@ -1,7 +1,7 @@
 projection;
 strict ( 2 );
 
-define behavior for Zhh_C_RAPPartner //alias <alias_name>
+define behavior for Zhh_C_RAPPartner alias Partner
 {
   use create;
   use update;
