@@ -1,7 +1,17 @@
 @Metadata.layer: #CUSTOMER
-annotate entity ZHH_I_RAPPartner
+
+@UI: {
+   headerInfo: {
+    typeName: 'Partner',
+    typeNamePlural: 'Partners' 
+   }  
+}
+
+annotate entity Zhh_C_RAPPartner
   with 
 {
+  
+
   @UI.facet: [
         {
           id: 'FacetCollection',
