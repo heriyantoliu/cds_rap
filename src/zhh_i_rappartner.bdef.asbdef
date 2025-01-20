@@ -10,7 +10,7 @@ authorization master ( instance )
   create;
   update;
   delete;
-  field ( readonly ) PartnerNumber;
+  field ( readonly:update ) PartnerNumber;
 
   mapping for zhh_partner
   {
