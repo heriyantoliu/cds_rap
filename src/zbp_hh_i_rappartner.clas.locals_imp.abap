@@ -6,6 +6,8 @@ CLASS lhc_Partner DEFINITION INHERITING FROM cl_abap_behavior_handler.
       IMPORTING keys FOR partner~validateisfilled.
     METHODS validatecoredata FOR VALIDATE ON SAVE
       IMPORTING keys FOR partner~validatecoredata.
+    METHODS fillcurrency FOR DETERMINE ON MODIFY
+      IMPORTING keys FOR partner~fillcurrency.
 
 ENDCLASS.
 
@@ -32,9 +34,7 @@ CLASS lhc_Partner IMPLEMENTATION.
          FIELDS ( country PaymentCurrency )
          WITH CORRESPONDING #( keys )
          RESULT DATA(lt_partner_data)
-         " TODO: variable is assigned but never used (ABAP cleaner)
          FAILED DATA(ls_failed)
-         " TODO: variable is assigned but never used (ABAP cleaner)
          REPORTED DATA(ls_reported).
 
     LOOP AT lt_partner_data INTO DATA(ls_partner).
@@ -52,19 +52,40 @@ CLASS lhc_Partner IMPLEMENTATION.
                INTO TABLE reported-partner.
       ENDIF.
 
-      SELECT SINGLE FROM i_currency
-        FIELDS currency
-        WHERE currency = @ls_partner-paymentcurrency
-        INTO @DATA(ld_found_currency).
-
-      IF sy-subrc IS NOT INITIAL.
-        INSERT VALUE #( PartnerNumber = ls_partner-PartnerNumber )
-               INTO TABLE failed-partner.
-        INSERT VALUE #( PartnerNumber            = ls_partner-PartnerNumber
-                        %msg                     = new_message_with_text( text = 'Currency not found in I_Currency' )
-                        %element-paymentcurrency = if_abap_behv=>mk-on )
-               INTO TABLE reported-partner.
-      ENDIF.
+*      SELECT SINGLE FROM i_currency
+*        FIELDS currency
+*        WHERE currency = @ls_partner-paymentcurrency
+*        INTO @DATA(ld_found_currency).
+*
+*      IF sy-subrc IS NOT INITIAL.
+*        INSERT VALUE #( PartnerNumber = ls_partner-PartnerNumber )
+*               INTO TABLE failed-partner.
+*        INSERT VALUE #( PartnerNumber            = ls_partner-PartnerNumber
+*                        %msg                     = new_message_with_text( text = 'Currency not found in I_Currency' )
+*                        %element-paymentcurrency = if_abap_behv=>mk-on )
+*               INTO TABLE reported-partner.
+*      ENDIF.
     ENDLOOP.
   ENDMETHOD.
+
+  METHOD fillCurrency.
+    read entities of zhh_i_rappartner in local mode
+      entity partner
+      fields ( paymentcurrency )
+      with CORRESPONDING #( keys )
+      result data(lt_partner_data).
+
+    loop at lt_partner_data into data(ls_partner)
+      where paymentcurrency is initial.
+      modify entities of zhh_i_rappartner in local mode
+        entity partner
+        update fields ( paymentcurrency )
+        with value #(
+          ( %tky = ls_partner-%tky
+            paymentcurrency = 'EUR'
+            %control-PaymentCurrency = if_abap_behv=>mk-on )
+        ).
+    endloop.
+  ENDMETHOD.
+
 ENDCLASS.
