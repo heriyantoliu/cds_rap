@@ -8,6 +8,11 @@ CLASS lhc_Partner DEFINITION INHERITING FROM cl_abap_behavior_handler.
       IMPORTING keys FOR partner~validatecoredata.
     METHODS fillcurrency FOR DETERMINE ON MODIFY
       IMPORTING keys FOR partner~fillcurrency.
+    METHODS clearallemptystreets FOR MODIFY
+      IMPORTING keys FOR ACTION partner~clearallemptystreets.
+
+    METHODS fillemptystreets FOR MODIFY
+      IMPORTING keys FOR ACTION partner~fillemptystreets.
 
 ENDCLASS.
 
@@ -69,23 +74,66 @@ CLASS lhc_Partner IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD fillCurrency.
-    read entities of zhh_i_rappartner in local mode
-      entity partner
-      fields ( paymentcurrency )
-      with CORRESPONDING #( keys )
-      result data(lt_partner_data).
+    READ ENTITIES OF zhh_i_rappartner IN LOCAL MODE
+      ENTITY partner
+      FIELDS ( paymentcurrency )
+      WITH CORRESPONDING #( keys )
+      RESULT DATA(lt_partner_data).
 
-    loop at lt_partner_data into data(ls_partner)
-      where paymentcurrency is initial.
-      modify entities of zhh_i_rappartner in local mode
-        entity partner
-        update fields ( paymentcurrency )
-        with value #(
-          ( %tky = ls_partner-%tky
-            paymentcurrency = 'EUR'
+    LOOP AT lt_partner_data INTO DATA(ls_partner)
+      WHERE paymentcurrency IS INITIAL.
+      MODIFY ENTITIES OF zhh_i_rappartner IN LOCAL MODE
+        ENTITY partner
+        UPDATE FIELDS ( paymentcurrency )
+        WITH VALUE #(
+          ( %tky                     = ls_partner-%tky
+            paymentcurrency          = 'EUR'
             %control-PaymentCurrency = if_abap_behv=>mk-on )
-        ).
-    endloop.
+      ).
+    ENDLOOP.
+  ENDMETHOD.
+
+  METHOD clearAllEmptyStreets.
+    SELECT FROM zhh_partner
+      FIELDS partner, street
+      WHERE street = 'EMPTY'
+      INTO TABLE @DATA(lt_partner_data).
+
+    LOOP AT lt_partner_data INTO DATA(ls_partner).
+      MODIFY ENTITIES OF zhh_i_rappartner IN LOCAL MODE
+        ENTITY partner
+        UPDATE FIELDS ( street )
+        WITH VALUE #(
+          ( PartnerNumber   = ls_partner-partner
+            street          = ''
+            %control-Street = if_abap_behv=>mk-on )
+      ).
+
+    ENDLOOP.
+
+    INSERT VALUE #(
+      %msg = new_message_with_text( text     = |{ lines( lt_partner_data ) } records changed|
+                                    severity = if_abap_behv_message=>severity-success )
+    ) INTO TABLE reported-partner.
+  ENDMETHOD.
+
+  METHOD fillEmptyStreets.
+    READ ENTITIES OF zhh_i_rappartner IN LOCAL MODE
+      ENTITY partner
+      FIELDS ( street )
+      WITH CORRESPONDING #( keys )
+      RESULT DATA(lt_partner_data).
+
+    LOOP AT lt_partner_data INTO DATA(ls_partner).
+      MODIFY ENTITIES OF zhh_i_rappartner IN LOCAL MODE
+        ENTITY partner
+        UPDATE FIELDS ( street )
+        WITH VALUE #(
+          ( %tky            = ls_partner-%tky
+            street          = 'EMPTY'
+            %control-street = if_abap_behv=>mk-on )
+      ).
+    ENDLOOP.
   ENDMETHOD.
 
 ENDCLASS.
