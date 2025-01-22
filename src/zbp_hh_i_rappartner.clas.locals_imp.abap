@@ -167,7 +167,7 @@ CLASS lhc_Partner IMPLEMENTATION.
         %cid = keys[ sy-tabix ]-%cid
       ) INTO TABLE lt_creation REFERENCE INTO DATA(lr_create).
 
-      lr_create->* = CORRESPONDING #( base ( lr_create->* ) ls_partner  ).
+      lr_create->* = CORRESPONDING #( BASE ( lr_create->* ) ls_partner  ).
       lr_create->%control-PartnerNumber = if_abap_behv=>mk-on.
       lr_create->%control-PartnerName = if_abap_behv=>mk-on.
       lr_create->%control-street = if_abap_behv=>mk-on.
@@ -187,6 +187,46 @@ CLASS lhc_Partner IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD withPopup.
+    TRY.
+        DATA(ls_key) = keys[ 1 ].
+      CATCH cx_sy_itab_line_not_found.
+        RETURN.
+    ENDTRY.
+
+    CASE ls_key-%param-MessageType.
+      WHEN 1.
+        INSERT VALUE #(
+          %msg = new_message_with_text( severity = if_abap_behv_message=>severity-success text = 'Dummy Message' )
+        ) INTO TABLE reported-partner.
+      WHEN 2.
+        INSERT VALUE #(
+          %msg = new_message_with_text( severity = if_abap_behv_message=>severity-information text = 'Dummy Message' )
+        ) INTO TABLE reported-partner.
+      WHEN 3.
+        INSERT VALUE #(
+          %msg = new_message_with_text( severity = if_abap_behv_message=>severity-warning text = 'Dummy Message' )
+        ) INTO TABLE reported-partner.
+      WHEN 4.
+        INSERT VALUE #(
+            %msg = new_message_with_text( severity = if_abap_behv_message=>severity-error text = 'Dummy Message' )
+        ) INTO TABLE reported-partner.
+      when 5.
+        insert value #(
+          %msg = new_message_with_text( severity = if_abap_behv_message=>severity-none text = 'Dummy Message' )
+        ) into table reported-partner.
+      when 6.
+        reported-partner = value #(
+          ( %msg = new_message_with_text( severity = if_abap_behv_message=>severity-success text = 'Dummy Message' ) )
+          ( %msg = new_message_with_text( severity = if_abap_behv_message=>severity-information text = 'Dummy Message' ) )
+        ).
+      when 7.
+        reported-partner = value #(
+          ( %msg = new_message_with_text( severity = if_abap_behv_message=>severity-success text = 'Dummy Message' ) )
+          ( %msg = new_message_with_text( severity = if_abap_behv_message=>severity-error text = 'Dummy Message' ) )
+          ( %msg = new_message_with_text( severity = if_abap_behv_message=>severity-warning text = 'Dummy Message' ) )
+          ( %msg = new_message_with_text( severity = if_abap_behv_message=>severity-information text = 'Dummy Message' ) )
+        ).
+    ENDCASE.
   ENDMETHOD.
 
 ENDCLASS.
