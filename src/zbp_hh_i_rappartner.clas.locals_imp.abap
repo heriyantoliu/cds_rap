@@ -40,6 +40,10 @@ CLASS lhc_Partner DEFINITION INHERITING FROM cl_abap_behavior_handler.
       IMPORTING keys FOR ACTION partner~copyline.
     METHODS withpopup FOR MODIFY
       IMPORTING keys FOR ACTION partner~withpopup.
+    METHODS get_instance_features FOR INSTANCE FEATURES
+      IMPORTING keys REQUEST requested_features FOR partner RESULT result.
+    METHODS get_global_features FOR GLOBAL FEATURES
+      IMPORTING REQUEST requested_features FOR partner RESULT result.
 
 ENDCLASS.
 
@@ -250,6 +254,34 @@ CLASS lhc_Partner IMPLEMENTATION.
           ( %msg = new_message_with_text( severity = if_abap_behv_message=>severity-information text = 'Dummy Message' ) )
         ).
     ENDCASE.
+  ENDMETHOD.
+
+  METHOD get_instance_features.
+    IF requested_features-%action-fillEmptyStreets = if_abap_behv=>mk-on.
+      READ ENTITIES OF zhh_i_rappartner IN LOCAL MODE
+        ENTITY partner
+        FIELDS ( street )
+        WITH CORRESPONDING #( keys )
+        RESULT DATA(lt_partner_data).
+
+      LOOP AT lt_partner_data INTO DATA(ls_partner)
+        WHERE street IS NOT INITIAL.
+
+        INSERT VALUE #(
+          partnernumber            = ls_partner-PartnerNumber
+          %action-fillemptystreets = CONV #( if_abap_behv=>mk-on )
+        ) INTO TABLE result.
+      ENDLOOP.
+    ENDIF.
+  ENDMETHOD.
+
+  METHOD get_global_features.
+    data(ld_deactivate) = cond #(
+      when cl_abap_context_info=>get_user_alias( ) <> 'CB9980002128' then if_abap_behv=>mk-off
+      else if_abap_behv=>mk-on
+    ).
+
+    result-%delete = conv #( ld_deactivate ).
   ENDMETHOD.
 
 ENDCLASS.

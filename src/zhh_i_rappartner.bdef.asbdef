@@ -10,7 +10,7 @@ late numbering
 {
   create;
   update;
-  delete;
+  delete ( features : global );
   field ( readonly ) PartnerNumber;
 
   validation validateIsFilled on save { create; }
@@ -18,7 +18,7 @@ late numbering
 
   determination fillCurrency on modify { create; update; }
 
-  action fillEmptyStreets result [1] $self;
+  action ( features : instance ) fillEmptyStreets result [1] $self;
   static action clearAllEmptyStreets;
   factory action copyLine [1];
   static action withPopup parameter zhh_i_popupentity;
