@@ -17,7 +17,7 @@ define view entity ZHH_I_Partner
       street           as Street,
       city             as City,
       country          as Country,
-      payment_currency as PaymentCurrency,
+      payment_currency as PaymentCurrency,      
 
       _Country,
       _Currency
