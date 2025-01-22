@@ -5,12 +5,13 @@ define behavior for ZHH_I_RAPPartner alias Partner
 persistent table zhh_partner
 lock master
 authorization master ( instance )
+late numbering
 //etag master <field_name>
 {
   create;
   update;
   delete;
-  field ( readonly : update ) PartnerNumber;
+  field ( readonly ) PartnerNumber;
 
   validation validateIsFilled on save { create; }
   validation validateCoreData on save { create; field Country, PaymentCurrency; }

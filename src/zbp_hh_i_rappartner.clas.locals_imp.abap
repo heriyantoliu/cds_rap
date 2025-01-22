@@ -1,3 +1,26 @@
+CLASS lsc_zhh_i_rappartner DEFINITION INHERITING FROM cl_abap_behavior_saver.
+
+  PROTECTED SECTION.
+
+    METHODS adjust_numbers REDEFINITION.
+
+ENDCLASS.
+
+CLASS lsc_zhh_i_rappartner IMPLEMENTATION.
+
+  METHOD adjust_numbers.
+    SELECT FROM zhh_partner
+      FIELDS MAX( partner )
+      INTO @DATA(ld_max_partner).
+
+    LOOP AT mapped-partner REFERENCE INTO DATA(lr_partner).
+      ld_max_partner += 1.
+      lr_partner->PartnerNumber = ld_max_partner.
+    ENDLOOP.
+  ENDMETHOD.
+
+ENDCLASS.
+
 CLASS lhc_Partner DEFINITION INHERITING FROM cl_abap_behavior_handler.
   PRIVATE SECTION.
     METHODS get_instance_authorizations FOR INSTANCE AUTHORIZATION
@@ -26,15 +49,15 @@ CLASS lhc_Partner IMPLEMENTATION.
   ENDMETHOD.
 
   METHOD validateIsFilled.
-    LOOP AT keys INTO DATA(ls_key) WHERE PartnerNumber IS INITIAL.
-      INSERT VALUE #( PartnerNumber = ls_key-PartnerNumber )
-             INTO TABLE failed-partner.
-
-      INSERT VALUE #( PartnerNumber = ls_key-PartnerNumber
-                      %msg          = new_message_with_text( severity = if_abap_behv_message=>severity-error
-                                                             text     = 'Partner Number is mandatory' ) )
-             INTO TABLE reported-partner.
-    ENDLOOP.
+*    LOOP AT keys INTO DATA(ls_key) WHERE PartnerNumber IS INITIAL.
+*      INSERT VALUE #( PartnerNumber = ls_key-PartnerNumber )
+*             INTO TABLE failed-partner.
+*
+*      INSERT VALUE #( PartnerNumber = ls_key-PartnerNumber
+*                      %msg          = new_message_with_text( severity = if_abap_behv_message=>severity-error
+*                                                             text     = 'Partner Number is mandatory' ) )
+*             INTO TABLE reported-partner.
+*    ENDLOOP.
   ENDMETHOD.
 
   METHOD validateCoreData.
@@ -210,20 +233,20 @@ CLASS lhc_Partner IMPLEMENTATION.
         INSERT VALUE #(
             %msg = new_message_with_text( severity = if_abap_behv_message=>severity-error text = 'Dummy Message' )
         ) INTO TABLE reported-partner.
-      when 5.
-        insert value #(
+      WHEN 5.
+        INSERT VALUE #(
           %msg = new_message_with_text( severity = if_abap_behv_message=>severity-none text = 'Dummy Message' )
-        ) into table reported-partner.
-      when 6.
-        reported-partner = value #(
-          ( %msg = new_message_with_text( severity = if_abap_behv_message=>severity-success text = 'Dummy Message' ) )
+        ) INTO TABLE reported-partner.
+      WHEN 6.
+        reported-partner = VALUE #(
+          ( %msg = new_message_with_text( severity = if_abap_behv_message=>severity-success     text = 'Dummy Message' ) )
           ( %msg = new_message_with_text( severity = if_abap_behv_message=>severity-information text = 'Dummy Message' ) )
         ).
-      when 7.
-        reported-partner = value #(
-          ( %msg = new_message_with_text( severity = if_abap_behv_message=>severity-success text = 'Dummy Message' ) )
-          ( %msg = new_message_with_text( severity = if_abap_behv_message=>severity-error text = 'Dummy Message' ) )
-          ( %msg = new_message_with_text( severity = if_abap_behv_message=>severity-warning text = 'Dummy Message' ) )
+      WHEN 7.
+        reported-partner = VALUE #(
+          ( %msg = new_message_with_text( severity = if_abap_behv_message=>severity-success     text = 'Dummy Message' ) )
+          ( %msg = new_message_with_text( severity = if_abap_behv_message=>severity-error       text = 'Dummy Message' ) )
+          ( %msg = new_message_with_text( severity = if_abap_behv_message=>severity-warning     text = 'Dummy Message' ) )
           ( %msg = new_message_with_text( severity = if_abap_behv_message=>severity-information text = 'Dummy Message' ) )
         ).
     ENDCASE.
