@@ -12,7 +12,9 @@ CLASS lhc_Partner DEFINITION INHERITING FROM cl_abap_behavior_handler.
       IMPORTING keys FOR ACTION partner~clearallemptystreets.
 
     METHODS fillemptystreets FOR MODIFY
-      IMPORTING keys FOR ACTION partner~fillemptystreets.
+      IMPORTING keys FOR ACTION partner~fillemptystreets RESULT result.
+    METHODS copyline FOR MODIFY
+      IMPORTING keys FOR ACTION partner~copyline.
 
 ENDCLASS.
 
@@ -133,7 +135,53 @@ CLASS lhc_Partner IMPLEMENTATION.
             street          = 'EMPTY'
             %control-street = if_abap_behv=>mk-on )
       ).
+
+      INSERT VALUE #(
+        %tky   = ls_partner-%tky
+        %param = ls_partner
+      ) INTO TABLE result.
     ENDLOOP.
+  ENDMETHOD.
+
+  METHOD copyLine.
+    DATA: lt_creation TYPE TABLE FOR CREATE zhh_i_rappartner.
+
+    READ ENTITIES OF zhh_i_rappartner IN LOCAL MODE
+      ENTITY partner
+      ALL FIELDS
+      WITH CORRESPONDING #( keys )
+      RESULT DATA(lt_partner_data).
+
+    SELECT FROM zhh_partner
+      FIELDS MAX( partner )
+      INTO @DATA(ld_number).
+
+    LOOP AT lt_partner_data INTO DATA(ls_partner).
+      ld_number += 1.
+      ls_partner-PartnerNumber = ld_number.
+      ls_partner-partnername &&= | Copy|.
+
+      INSERT VALUE #(
+        %cid = keys[ sy-tabix ]-%cid
+      ) INTO TABLE lt_creation REFERENCE INTO DATA(lr_create).
+
+      lr_create->* = CORRESPONDING #( base ( lr_create->* ) ls_partner  ).
+      lr_create->%control-PartnerNumber = if_abap_behv=>mk-on.
+      lr_create->%control-PartnerName = if_abap_behv=>mk-on.
+      lr_create->%control-street = if_abap_behv=>mk-on.
+      lr_create->%control-city = if_abap_behv=>mk-on.
+      lr_create->%control-country = if_abap_behv=>mk-on.
+      lr_create->%control-PaymentCurrency = if_abap_behv=>mk-on.
+    ENDLOOP.
+
+    MODIFY ENTITIES OF zhh_i_rappartner IN LOCAL MODE
+      ENTITY partner
+      CREATE FROM lt_creation
+      FAILED DATA(ls_failed)
+      MAPPED DATA(ls_mapped)
+      REPORTED DATA(ls_reported).
+
+    mapped-partner = ls_mapped-partner.
   ENDMETHOD.
 
 ENDCLASS.
