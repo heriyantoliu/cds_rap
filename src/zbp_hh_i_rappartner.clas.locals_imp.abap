@@ -15,6 +15,8 @@ CLASS lhc_Partner DEFINITION INHERITING FROM cl_abap_behavior_handler.
       IMPORTING keys FOR ACTION partner~fillemptystreets RESULT result.
     METHODS copyline FOR MODIFY
       IMPORTING keys FOR ACTION partner~copyline.
+    METHODS withpopup FOR MODIFY
+      IMPORTING keys FOR ACTION partner~withpopup.
 
 ENDCLASS.
 
@@ -182,6 +184,9 @@ CLASS lhc_Partner IMPLEMENTATION.
       REPORTED DATA(ls_reported).
 
     mapped-partner = ls_mapped-partner.
+  ENDMETHOD.
+
+  METHOD withPopup.
   ENDMETHOD.
 
 ENDCLASS.
