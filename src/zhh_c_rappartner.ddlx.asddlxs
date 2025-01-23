@@ -3,9 +3,11 @@
 @UI: {
    headerInfo: {
     typeName: 'Partner',
-    typeNamePlural: 'Partners'
+    typeNamePlural: 'Partners'    
    }
 }
+
+@UI.headerInfo.title:{ type: #STANDARD, value: 'PartnerName' }
 
 annotate entity Zhh_C_RAPPartner with
 {
@@ -79,5 +81,8 @@ annotate entity Zhh_C_RAPPartner with
   @EndUserText.label: 'PayCurr'
   @EndUserText.quickInfo: 'Payment Currency'
   PaymentCurrency;
+  
+  @UI.hidden: true
+  LocalLastChangedAt;
 
 }

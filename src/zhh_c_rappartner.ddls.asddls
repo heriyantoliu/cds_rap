@@ -5,11 +5,16 @@
 define root view entity Zhh_C_RAPPartner
   provider contract transactional_query
   as projection on ZHH_I_RAPPartner
-{
-  key PartnerNumber,
+{  
+      key PartnerNumber,
       PartnerName,
       Street,
       City,
       Country,
-      PaymentCurrency
+      PaymentCurrency,
+      LastChangedAt,
+      LastChangedBy,
+      CreatedAt,
+      CreatedBy,
+      LocalLastChangedAt
 }
