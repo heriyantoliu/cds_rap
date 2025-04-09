@@ -10,6 +10,8 @@ define root view entity ZHH_C_RAPCInvoice
   DocDate,
   DocTime,
   Partner,
+  @ObjectModel.virtualElementCalculatedBy: 'ABAP:ZCL_HH_DEMO_CRAP_VE_EXIT'
+  virtual NumberOfPositions: abap.int4,
   /* Associations */
   _Position : redirected to composition child ZHH_C_RAPCPosition
 }
