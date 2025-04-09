@@ -1,0 +1,5 @@
+CLASS zbp_hh_i_dmo_cname DEFINITION PUBLIC ABSTRACT FINAL FOR BEHAVIOR OF zhh_i_dmo_cname.
+ENDCLASS.
+
+CLASS zbp_hh_i_dmo_cname IMPLEMENTATION.
+ENDCLASS.

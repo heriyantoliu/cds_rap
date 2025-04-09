@@ -1,0 +1,4 @@
+@EndUserText.label: 'Company Name'
+define service ZHH_DEMO_COMPANY_NAME {
+  expose ZHH_I_Dmo_CName as CompanyNames;
+}

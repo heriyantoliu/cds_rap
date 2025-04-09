@@ -7,6 +7,7 @@ define root view entity Zhh_C_RAPPartner
   as projection on ZHH_I_RAPPartner
 {  
       key PartnerNumber,
+      @Consumption.valueHelpDefinition: [{ entity:{ name: 'Zhh_I_RAPCustomEntityCNames', element: 'CompanyName'} }]      
       PartnerName,
       Street,
       City,

@@ -1,0 +1,21 @@
+managed implementation in class zbp_hh_i_dmo_cname unique;
+strict ( 2 );
+
+define behavior for ZHH_I_Dmo_CName alias Name
+persistent table zhh_dmo_cname
+lock master
+authorization master ( instance )
+//etag master <field_name>
+{
+  create;
+  update;
+  delete;
+  field ( readonly ) CompanyName;
+
+  mapping for zhh_dmo_cname
+  {
+    CompanyName = name;
+    Branch = branch;
+    CompanyDescription = description;
+  }
+}
