@@ -1,6 +1,7 @@
 @AccessControl.authorizationCheck: #NOT_REQUIRED
 @EndUserText.label: 'Position'
 @Metadata.ignorePropagatedAnnotations: true
+@Metadata.allowExtensions: true
 define view entity ZHH_C_RAPCPosition as projection on ZHH_I_RAPCPosition as Position
 {
   key Document,
@@ -13,5 +14,5 @@ define view entity ZHH_C_RAPCPosition as projection on ZHH_I_RAPCPosition as Pos
   Price,
   Currency,
   /* Associations */
-  _Invoice : redirected to parent Zhh_C_RAPCInvoice
+  _Invoice : redirected to parent ZHH_C_RAPCInvoice
 }

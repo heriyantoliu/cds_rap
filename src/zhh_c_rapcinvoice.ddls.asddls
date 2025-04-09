@@ -1,6 +1,7 @@
 @AccessControl.authorizationCheck: #NOT_REQUIRED
 @EndUserText.label: 'Invoice'
 @Metadata.ignorePropagatedAnnotations: true
+@Metadata.allowExtensions: true
 define root view entity ZHH_C_RAPCInvoice
   provider contract transactional_query 
   as projection on ZHH_R_RAPCInvoice

@@ -1,0 +1,39 @@
+@Metadata.layer: #CUSTOMER
+
+@UI.headerInfo: { typeName: 'Invoice',
+                  typeNamePlural: 'Invoices',
+                  title.value: 'Document',
+                  description.label: '(Description)',
+                  typeImageUrl: 'sap-icon://my-sales-order' }
+
+annotate entity ZHH_C_RAPCInvoice
+  with
+{
+  @UI.facet: [ { id: 'FacetControlHeader',
+                 label: 'Header',
+                 type: #FIELDGROUP_REFERENCE,
+                 purpose: #HEADER,
+                 targetQualifier: 'CONTROL_HEADER' },
+               { id: 'FacetFieldArea',
+                 label: 'Information',
+                 type: #FIELDGROUP_REFERENCE,
+                 purpose: #STANDARD,
+                 targetQualifier: 'FIELD_AREA' },
+               { id: 'controlSection', type: #LINEITEM_REFERENCE, position: 20, targetElement: '_Position' } ]
+  @UI.lineItem: [ { position: 10 } ]
+  @UI.selectionField: [ { position: 10 } ]
+  Document;
+
+  @UI.fieldGroup: [ { position: 20, qualifier: 'FIELD_AREA', label: 'Date' } ]
+  @UI.lineItem: [ { position: 20 } ]
+  DocDate;
+
+  @UI.fieldGroup: [ { position: 30, qualifier: 'FIELD_AREA', label: 'Time' } ]
+  @UI.lineItem: [ { position: 30 } ]
+  DocTime;
+
+  @UI.fieldGroup: [ { position: 40, qualifier: 'CONTROL_HEADER', label: 'Partner' } ]
+  @UI.lineItem: [ { position: 40 } ]
+  @UI.selectionField: [ { position: 20 } ]
+  Partner;
+}
