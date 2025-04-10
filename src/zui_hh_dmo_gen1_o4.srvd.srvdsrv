@@ -1,0 +1,11 @@
+@EndUserText: {
+  label: 'Service Definition for ZC_HH_DMO_GEN1'
+}
+@ObjectModel: {
+  leadingEntity: {
+    name: 'ZC_HH_DMO_GEN1'
+  }
+}
+define service ZUI_HH_DMO_GEN1_O4 provider contracts odata_v4_ui {
+  expose ZC_HH_DMO_GEN1 as Simple1;
+}

@@ -1,0 +1,17 @@
+projection implementation in class ZBP_C_HH_DMO_GEN1 unique;
+strict ( 2 );
+use draft;
+define behavior for ZC_HH_DMO_GEN1 alias Simple1
+use etag
+
+{
+  use create;
+  use update;
+  use delete;
+
+  use action Edit;
+  use action Activate;
+  use action Discard;
+  use action Resume;
+  use action Prepare;
+}
