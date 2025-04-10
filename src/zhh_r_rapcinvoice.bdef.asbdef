@@ -13,6 +13,8 @@ authorization master ( instance )
   field ( readonly ) Document;
   association _Position { create; }
 
+  static action CreateInvoiceDocument deep parameter ZHH_S_RAPCreateinvoice;
+
   mapping for zhh_invoice
     {
       Document = document;

@@ -1,0 +1,14 @@
+abstract;
+strict ( 2 );
+with hierarchy;
+
+define behavior for ZHH_S_RAPCreateinvoice alias Invoice
+{
+  field(suppress) DummyKey;
+  association _Position;
+}
+
+define behavior for Zhh_S_Rapcreateposition alias Position
+{
+  field(suppress) DummyKey;
+}

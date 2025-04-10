@@ -1,0 +1,21 @@
+projection;
+strict ( 2 );
+
+define behavior for ZHH_C_RAPCInvoice alias Invoice
+{
+  use create;
+  use update;
+  use delete;
+
+  use action CreateInvoiceDocument;
+
+  use association _Position { create; }
+}
+
+define behavior for ZHH_C_RAPCPosition alias Position
+{
+  use update;
+  use delete;
+
+  use association _Invoice;
+}
