@@ -10,6 +10,7 @@ define root view entity Zhh_C_RAPPartner
       @Consumption.valueHelpDefinition: [{ entity:{ name: 'Zhh_I_RAPCustomEntityCNames', element: 'CompanyName'} }]      
       PartnerName,
       Street,
+      @Consumption.valueHelpDefinition: [{ entity: { name: 'ZHH_I_RAPCityVH', element: 'City' } }]
       City,
       Country,
       PaymentCurrency,
