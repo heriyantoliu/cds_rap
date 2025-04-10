@@ -1,0 +1,4 @@
+@EndUserText.label: 'Unmanaged Service'
+define service ZHH_DEMO_RAP_UNMANAGED {
+  expose ZHH_C_DMOUnmanaged as Unmanaged;
+}
