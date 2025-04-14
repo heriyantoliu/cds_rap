@@ -6,6 +6,7 @@
 @Metadata.ignorePropagatedAnnotations: true
 
 @Search.searchable: true
+@ObjectModel.semanticKey: [ 'Currency' ]
 
 define root view entity ZHH_C_DRPCurrency
   provider contract transactional_query
