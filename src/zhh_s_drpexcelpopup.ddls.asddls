@@ -1,5 +1,5 @@
 @EndUserText.label: 'Excel Popup'
-define abstract entity ZHH_S_DRPExcelPopup
+define root abstract entity ZHH_S_DRPExcelPopup
 
 {
   @EndUserText.label: 'Comment'

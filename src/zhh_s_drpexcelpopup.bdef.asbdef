@@ -1,0 +1,7 @@
+abstract;
+//strict ( 2 );
+
+define behavior for ZHH_S_DRPExcelPopup //alias <alias_name>
+{
+  field ( mandatory ) EventComment, TestRun;
+}
