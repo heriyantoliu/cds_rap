@@ -4,7 +4,7 @@
                   typeNamePlural: 'Currencies',
                   title.value: 'Currency',
                   description.value: 'CurrencyName',
-                  imageUrl: 'PictureURL' }
+                  imageUrl: 'PictureAttachment' }
 
 annotate entity ZHH_C_DRPCurrency
   with
@@ -25,6 +25,11 @@ annotate entity ZHH_C_DRPCurrency
                  position: 30,
                  type: #IDENTIFICATION_REFERENCE,
                  targetQualifier: 'DOCU' },
+               { id: 'idFiles',
+                 label: 'Files',
+                 position: 35,
+                 type: #IDENTIFICATION_REFERENCE,
+                 targetQualifier: 'FILE' },
                { id: 'idChanges',
                  label: 'Changes',
                  position: 40,
@@ -67,6 +72,26 @@ annotate entity ZHH_C_DRPCurrency
   @EndUserText.label: 'Currency Image'
   @UI.identification: [ { position: 60, qualifier: 'ADD' } ]
   PictureURL;
+
+  @EndUserText.label: 'Excel'
+  @UI.identification: [ { position: 80, qualifier: 'FILE' } ]
+  ExcelAttachment;
+
+  @UI.hidden: true  
+  ExcelMimeType;
+
+  @UI.hidden: true
+  ExcelFilename;
+
+  @EndUserText.label: 'Picture'
+  @UI.identification: [ { position: 80, qualifier: 'FILE' } ]
+  PictureAttachment;
+
+  @UI.hidden: true
+  PictureMimeType;
+
+  @UI.hidden: true
+  PictureFilename;
 
   @EndUserText.label: 'Last Changer (ID)'
   @UI.identification: [ { position: 70, qualifier: 'CHANGE' } ]

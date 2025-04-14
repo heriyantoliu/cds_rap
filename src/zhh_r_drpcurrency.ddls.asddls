@@ -21,6 +21,12 @@ define root view entity ZHH_R_DRPCurrency as select from I_Currency
   _Data.Documentation,
   _Data.PictureURL,  
   _Data.LastEditor,
+  _Data.ExcelAttachment,
+  _Data.ExcelMimeType,
+  _Data.ExcelFilename,
+  _Data.PictureAttachment,
+  _Data.PictureMimeType,
+  _Data.PictureFilename,
   _Data.LastChanged,
   _Data.LocalLastChanged,
   _Country  
