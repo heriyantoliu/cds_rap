@@ -30,6 +30,8 @@ authorization master ( instance )
 
   action LoadExcelContent parameter ZHH_S_DRPExcelPopup;
 
+  event AfterExcelLoad parameter ZHH_S_DRPEventData;
+
   mapping for zhh_drp_addcurr
     {
       Currency          = currency;

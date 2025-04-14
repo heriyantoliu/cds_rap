@@ -1,3 +1,11 @@
+CLASS lcl_buffer DEFINITION.
+  PUBLIC SECTION.
+    TYPES tt_keys TYPE TABLE FOR ACTION IMPORT ZHH_R_DRPCurrency\\Currency~LoadExcelContent.
+
+    CLASS-DATA gt_event TYPE tt_keys.
+ENDCLASS.
+
+
 CLASS lhc_Currency DEFINITION INHERITING FROM cl_abap_behavior_handler.
   PRIVATE SECTION.
     TYPES: BEGIN OF ts_excel,
@@ -43,7 +51,7 @@ CLASS lhc_Currency IMPLEMENTATION.
       CATCH cx_sy_itab_line_not_found.
         INSERT new_message( id       = 'ZHH_DEMO_RAP_PATTERN'
                             number   = '003'
-                            severity =  if_abap_behv_message=>severity-error )
+                            severity = if_abap_behv_message=>severity-error )
                INTO TABLE reported-%other.
         RETURN.
     ENDTRY.
@@ -112,13 +120,15 @@ CLASS lhc_Currency IMPLEMENTATION.
     INSERT new_message( id       = 'ZHH_DEMO_RAP_PATTERN'
                         number   = '007'
                         severity = if_abap_behv_message=>severity-success
-                         v1       = lines( lt_countries_create[ 1 ]-%target ) )
+                        v1       = lines( lt_countries_create[ 1 ]-%target ) )
            INTO TABLE reported-%other.
     INSERT new_message( id       = 'ZHH_DEMO_RAP_PATTERN'
                         number   = '006'
                         severity = if_abap_behv_message=>severity-success
                         v1       = lines( lt_countries_modify ) )
            INTO TABLE reported-%other.
+
+    INSERT ls_key INTO TABLE lcl_buffer=>gt_event.
   ENDMETHOD.
 
   METHOD convert_excel_file_to_table.
@@ -175,6 +185,13 @@ CLASS lsc_ZHH_R_DRPCURRENCY IMPLEMENTATION.
 
     LOOP AT delete-country INTO DATA(ls_delete_country).
       DELETE zhh_drp_country FROM @( CORRESPONDING zhh_drp_country( ls_delete_country MAPPING FROM ENTITY ) ).
+    ENDLOOP.
+
+    LOOP AT lcl_buffer=>gt_event INTO DATA(ls_event).
+      RAISE ENTITY EVENT ZHH_R_DRPCurrency~AfterExcelLoad
+            FROM VALUE #( ( %key   = ls_event-%key
+                            %param = VALUE #( EventComment = ls_event-%param-EventComment
+                                              LastEditor   = cl_abap_context_info=>get_user_technical_name( ) ) ) ).
     ENDLOOP.
   ENDMETHOD.
 
