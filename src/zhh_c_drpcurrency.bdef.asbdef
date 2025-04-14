@@ -13,6 +13,7 @@ define behavior for ZHH_C_DRPCurrency alias Currency
   use action Prepare;
 
   use action LoadExcelContent;
+  use function GetDefaultsForExcelPopup;
 
   side effects {
     action LoadExcelContent affects entity _Country, field ExcelAttachment;

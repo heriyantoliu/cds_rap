@@ -21,6 +21,8 @@ CLASS lhc_Currency DEFINITION INHERITING FROM cl_abap_behavior_handler.
       IMPORTING keys REQUEST requested_authorizations FOR Currency RESULT result.
     METHODS loadexcelcontent FOR MODIFY
       IMPORTING keys FOR ACTION currency~loadexcelcontent.
+    METHODS getdefaultsforexcelpopup FOR READ
+      IMPORTING keys FOR FUNCTION currency~getdefaultsforexcelpopup RESULT result.
 
     METHODS convert_excel_file_to_table
       IMPORTING id_stream        TYPE xstring
@@ -151,6 +153,15 @@ CLASS lhc_Currency IMPLEMENTATION.
 
     lo_sheet->select( lo_pattern )->row_stream( )->operation->write_to( REF #( rt_result ) )->set_value_transformation(
         xco_cp_xlsx_read_access=>value_transformation->string_value )->execute( ).
+  ENDMETHOD.
+
+  METHOD GetDefaultsForExcelPopup.
+    LOOP AT keys INTO DATA(key).
+      INSERT VALUE #( %tky = key-%tky ) INTO TABLE result REFERENCE INTO DATA(new_line).
+
+      new_line->%param-EventComment = |Default event for { key-currency }|.
+      new_line->%param-TestRun      = SWITCH #( key-currency WHEN 'EUR' THEN abap_true ELSE abap_false ).
+    ENDLOOP.
   ENDMETHOD.
 ENDCLASS.
 
