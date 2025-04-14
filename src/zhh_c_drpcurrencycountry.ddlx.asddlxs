@@ -1,0 +1,23 @@
+@Metadata.layer: #CUSTOMER
+annotate entity ZHH_C_DRPCurrencyCountry
+  with 
+{
+  @UI.hidden: true
+  Currency;
+
+  @UI:{
+    lineItem: [{ position: 10 }]
+  }
+  Country;
+
+  @UI:{
+    lineItem: [{ position: 20 }]
+  }
+  CountryName;
+  
+  @UI:{
+    lineItem: [{ position: 30 }]
+  }
+  CountryRanking;
+  
+}

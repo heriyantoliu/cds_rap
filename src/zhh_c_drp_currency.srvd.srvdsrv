@@ -1,0 +1,5 @@
+@EndUserText.label: 'Currency Service'
+define service ZHH_C_DRP_Currency {
+  expose ZHH_C_DRPCurrency        as Currency;
+  expose ZHH_C_DRPCurrencyCountry as Country;
+}

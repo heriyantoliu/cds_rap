@@ -1,0 +1,5 @@
+CLASS zbp_hh_r_drpcurrency DEFINITION PUBLIC ABSTRACT FINAL FOR BEHAVIOR OF zhh_r_drpcurrency.
+ENDCLASS.
+
+CLASS zbp_hh_r_drpcurrency IMPLEMENTATION.
+ENDCLASS.
