@@ -40,6 +40,7 @@ annotate entity ZHH_C_DRPCurrency
                  position: 50,
                  type: #LINEITEM_REFERENCE,
                  targetElement: '_Country' } ]
+  @UI.identification: [ { type: #FOR_ACTION, dataAction: 'LoadExcelContent', label: 'Load Excel' } ]
   @UI.lineItem: [ { position: 10 } ]
   @UI.selectionField: [ { position: 10 } ]
   Currency;
@@ -77,7 +78,7 @@ annotate entity ZHH_C_DRPCurrency
   @UI.identification: [ { position: 80, qualifier: 'FILE' } ]
   ExcelAttachment;
 
-  @UI.hidden: true  
+  @UI.hidden: true
   ExcelMimeType;
 
   @UI.hidden: true

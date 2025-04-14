@@ -12,6 +12,8 @@ define behavior for ZHH_C_DRPCurrency alias Currency
   use action Resume;
   use action Prepare;
 
+  use action LoadExcelContent;
+
   use association _Country { create; with draft; }
 }
 
