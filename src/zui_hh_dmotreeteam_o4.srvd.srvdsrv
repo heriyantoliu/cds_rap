@@ -1,0 +1,11 @@
+@EndUserText: {
+  label: 'Service Definition for ZHH_C_DMOTREETEAM'
+}
+@ObjectModel: {
+  leadingEntity: {
+    name: 'ZHH_C_DMOTREETEAM'
+  }
+}
+define service ZUI_HH_DMOtreeTEAM_O4 provider contracts odata_v4_ui {
+  expose ZHH_C_DMOTREETEAM;
+}
